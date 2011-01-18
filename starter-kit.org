@@ -541,7 +541,88 @@ Please share anything that you have come across which you think could
 be helpful, either in the form of a pull request, a patch, or just an
 email to me http://github.com/eschulte.
 
+** How do I use the starter kit without compiling org-mode?
+:PROPERTIES:
+:CUSTOM_ID: no-compile
+:END:
+Some users wish to run org-mode straight from the sources, since the
+compiled source can make reading backtraces difficult. Whatever your
+reason may be, you use the starter kit this way.
 
+Skip the =make= step in the <<Installation>> section. Instead, follow
+these instructions.
+
+1) =org-install.el= is required by the starter kit. To make it,
+   navigate to the =src/org= directory and enter =make
+   lisp/org-install.el= at the command prompt.
+2) Updating the documentation is probably a good idea. Enter =make
+   info=. Optionally, you can update the system-wide org documentation
+   by entering =make install-info=. If you want a PDF version of the
+   manual, you can enter =make doc/org.pdf= and find the resulting
+   file in the doc directory.
+
+** I recently updated the starter kit, but org is an old version. How do I fix this? 
+Doing a =git pull= and =git submodule update= will not be
+enough. Go to the =src/org= directory and enter =make clean= to get
+rid of the old version. Then, enter =make=, or follow the
+[[#no-compile][alternate instructions]].
+
+** I changed my personal init file, =username.org=, but the starter kit didn't pick up the changes. What do I do now?
+Some users may find it useful to remove the tangled version of init
+files. If you find a particular file is not loading as expected,
+remove the elisp version of that file and restart Emacs.
+
+For example, if your $USER is "johndoe", you could issue =rm
+johndoe.el= to remove the tangled output from the previous time
+=johndoe.org= was loaded by org-babel.
+
+Under no circumstances should you issue =rm *.el=! This will remove
+the =init.el= file, which is perhaps the most crucial startup file in
+the starter kit. Use some regexp magic if you want to remove all elisp
+files except this one. For example, this works nicely:
+
+#+begin_src shell-script
+  rm starter-kit*.el
+#+end_src
+
+** Hey! The org info manual isn't showing up in emacs. What gives?
+Sometimes, info manuals can be a real headache, but some users prefer
+them. If the org info manual isn't showing up, or the info manual is
+displaying the wrong version of the org-mode documentation (Emacs
+ships with an older version of org-mode than the one the starter kit
+uses), the problem most likely resides in your local setup.
+
+1) The shell's $INFOPATH variable
+   Have you set the shell's INFOPATH variable? The starter kit should
+   not be ignoring this variable. This variable is copied into the
+   elisp variable =Info-default-directory-list= when emacs starts
+   up. The starter kit then copies =Info-default-directory-list= to
+   =Info-directory-list= without losing any changes you may have made
+   to this variable. This is the next place to look.
+2) =Info-directory-list=
+   Is the doc directory for the starter kit version of org-mode at the
+   top of this list? If not, open a ticket and describe what the
+   variable looks like.
+
+   If you installed the starter kit to =~/.emacs.d/= then the
+   directory =~/.emacs.d/src/org/doc= should be at the top of
+   =Info-directory-list=. 
+3) Did you =make= the manual?  Especially if you choose [[#no-compile][not to compile
+   org-mode]], you may need to compile the documentation. Regardless of
+   whether or not you compiled org, it may be helpful to try this
+   solution out before opening a ticket.
+
+   Navigate to the =src/org= directory of the starter kit. At the
+   command prompt, type
+   #+begin_src shell-script
+     make info
+     make install-info
+   #+end_src
+   where the last step is optional, and only required if you want to
+   update the site-wide documentation of org-mode.
+
+   To check if this fixed the issue, first close any Info buffers in
+   emacs and call the Info index with =C-h i= then choose org-mode.
 
 * Footnotes
 
