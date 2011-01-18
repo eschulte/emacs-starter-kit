@@ -117,17 +117,12 @@ By placing the =doc/= directory in Org-mode at the front of the
 =Info-directory-list= we can be sure that the latest version of the
 Org-mode manual is available to the =info= command (bound to =C-h i=).
 #+begin_src emacs-lisp
-  (if (boundp 'Info-directory-list)
-      (setq Info-directory-list (append Info-directory-list
-                                        Info-default-directory-list))
-      (setq Info-directory-list Info-default-directory-list))
-  (setq Info-directory-list
-        (cons (expand-file-name
+  (push (expand-file-name
                "doc"
                (expand-file-name
                 "org"
                 (expand-file-name "src" dotfiles-dir)))
-              Info-directory-list))
+        Info-directory-list)
 #+end_src
 
 ** Starter Kit Documentation
