@@ -549,7 +549,7 @@ Some users wish to run org-mode straight from the sources, since the
 compiled source can make reading backtraces difficult. Whatever your
 reason may be, you use the starter kit this way.
 
-Skip the =make= step in the <<Installation>> section. Instead, follow
+Skip the =make= step in the [[#installation][Installation]] section. Instead, follow
 these instructions.
 
 1) =org-install.el= is required by the starter kit. To make it,
